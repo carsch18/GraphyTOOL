@@ -1,5 +1,7 @@
 # 🚀 GraphyBOOK - Revolutionary AI Physics Animation Studio
 
+# NOTE :- THIS INNOVATION IS FILED FOR INDIAN PATENT AND HAS PASSED SECOND LEVEL    #  EVALUATION AND HENCE CANT PROVIDE THE COMPLETE SOURCE CODE .
+
 <div align="center">
 
 ![GraphyBOOK Logo](https://img.shields.io/badge/GraphyBOOK-AI%20Animation%20Studio-6366f1?style=for-the-badge&logo=python&logoColor=white)
