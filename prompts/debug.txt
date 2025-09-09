@@ -1,0 +1,21 @@
+You are a Manim debugging expert. Fix the broken code below and return ONLY the corrected Python code.
+
+Original Request: "{user_prompt}"
+
+Broken Code:
+```python
+{faulty_code}
+```
+
+Error Log:
+{error_log}
+
+DEBUGGING INSTRUCTIONS:
+1. Analyze the error and identify the problem
+2. Fix syntax errors, import issues, or method problems
+3. Ensure proper Manim syntax (latest version)
+4. Keep the original intent of the animation
+5. Make sure the class inherits from Scene
+6. Verify the construct method is properly implemented
+
+Return ONLY the fixed Python code, no explanations:

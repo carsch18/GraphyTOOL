@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphyTOOL - AI Animation Studio</title>
+    <!-- 
+    ========== 🎨 EASY CUSTOMIZATION 🎨 ==========
+    
+    🔤 FONTS: Copy any name below
+    'Space Grotesk' | 'Audiowide' | 'Orbitron' | 'Michroma' | 'Exo 2' | 'Rajdhani' | 
+    'Press Start 2P' | 'Bungee' | 'Russo One' | 'Inter' | 'Poppins' | 'Montserrat' | 
+    'Bebas Neue' | 'Oswald' | 'Anton'
+    
+    🌈 GRADIENT COLORS: Copy 6 colors for gradient
+    Purple Glow: #8a2be2, #9932cc, #ba55d3, #da70d6, #9370db, #8a2be2
+    Neon Cyber: #00ffff, #ff00ff, #00ff00, #ffff00, #ff1493, #00ffff
+    Matrix: #00ff00, #00cc00, #009900, #006600, #003300, #00ff00
+    Fire: #ff4500, #ff6600, #ff8800, #ffaa00, #ffcc00, #ff4500
+    Ice: #00bfff, #87ceeb, #4169e1, #0000ff, #191970, #00bfff
+    Ocean: #006994, #0077be, #00a8cc, #00d4aa, #40e0d0, #006994
+    Sunset: #ff6b35, #f7931e, #ffcc02, #ff9500, #ff6b35, #f7931e
+    ========================================
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Audiowide:wght@400&family=Orbitron:wght@400;500;600;700&family=Michroma:wght@400&family=Exo+2:wght@300;400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&family=Press+Start+2P&family=Bungee:wght@400&family=Russo+One&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Anton&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #000000;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        .landing-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(10, 10, 50, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(20, 20, 80, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(30, 30, 100, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #0a0a1a 25%, #0d0d2d 50%, #10103a 75%, #000000 100%);
+            overflow: hidden;
+        }
+
+        .hero {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .landing-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            padding: 3rem;
+            animation: fadeInUp 2s ease-out, float 6s ease-in-out infinite;
+            transform: translateY(50vh);
+        }
+
+        .logo-container {
+            margin-bottom: 3rem;
+            animation: glow 4s ease-in-out infinite alternate;
+        }
+
+        /* ========== 🎨 CHANGE THESE TO CUSTOMIZE 🎨 ========== */
+        
+        .main-title {
+            /* 🔤 FONT: Replace with any font from list above */
+            font-family: 'Space Grotesk', sans-serif;
+            
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            
+            /* Pure white text */
+            color: #ffffff;
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: #ffffff;
+            background-clip: unset;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+            text-shadow: 
+                0 0 40px rgba(255, 255, 255, 0.9),
+                0 0 80px rgba(255, 255, 255, 0.7),
+                0 0 120px rgba(255, 255, 255, 0.5);
+            position: relative;
+        }
+
+        .main-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg, 
+                rgba(43, 73, 226, 0.2) 0%, 
+                rgba(8, 77, 239, 0.2) 50%, 
+                rgba(34, 9, 222, 0.2) 100%
+            );
+            filter: blur(20px);
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        .subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.4rem, 4vw, 2.5rem);
+            font-weight: 600;
+            color: #ffffff;
+            background: none;
+            -webkit-background-clip: unset;
+            -webkit-text-fill-color: #ffffff;
+            background-clip: unset;
+            margin-bottom: 4rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.95;
+        }
+
+        .cta-container {
+            margin-top: 10rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out 1s forwards;
+        }
+
+        .enter-btn {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 2.4rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 10px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 30px 60px rgba(0, 0, 0, 0.5),
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 10px 20px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
+        }
+
+        .enter-btn:active {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .enter-btn:hover::before {
+            left: 100%;
+        }
+
+        .auto-enter-text {
+            margin-top: 2rem;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 50%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 3s forwards, pulse 2s ease-in-out infinite;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        /* ========== 🎬 ANIMATIONS ========== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 20px rgba(138, 43, 226, 0.5),
+                    0 0 40px rgba(153, 50, 204, 0.3),
+                    0 0 60px rgba(186, 85, 211, 0.2);
+            }
+            to {
+                text-shadow: 
+                    0 0 40px rgba(138, 43, 226, 0.8),
+                    0 0 80px rgba(153, 50, 204, 0.6),
+                    0 0 120px rgba(186, 85, 211, 0.4);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.02); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+        }
+
+        /* ========== 📱 RESPONSIVE DESIGN ========== */
+        @media (max-width: 768px) {
+            .landing-content {
+                padding: 1rem;
+            }
+            
+            .enter-btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* ========== 🔄 PAGE TRANSITION ========== */
+        .landing-container.fade-out {
+            animation: fadeOut 1s ease-in-out forwards;
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== 🌐 MAIN LANDING PAGE CONTAINER ========== -->
+    <div class="landing-container" id="landingContainer">
+        
+        <!-- ========== 🌌 GALAXY ANIMATION BACKGROUND ========== -->
+        <div class="hero"></div>
+        
+        <!-- ========== 🔮 NEOMORPHIC CONTENT CONTAINER ========== -->
+        <div class="landing-content">
+            
+            <!-- ========== 📝 TITLE SECTION ========== -->
+            <div class="logo-container">
+                <h1 class="main-title">GraphyTOOL</h1>
+                <p class="subtitle">AI-Powered Animation Studio</p>
+            </div>
+
+            <!-- ========== 🚀 BUTTON SECTION ========== -->
+            <div class="cta-container">
+                <button class="enter-btn" id="enterBtn">
+                    Enter Studio
+                </button>
+                <div class="auto-enter-text">
+                    Auto-entering in <span id="countdown">10</span> seconds...
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- ========== 🌌 GALAXY ANIMATION SCRIPT ========== -->
+    <script>
+        // ========== GALAXY CONFIGURATION ==========
+        const GALAXY_COLORS = {
+          center: '#3a3ac0',
+          edge: '#0f0f2d'
+        };
+
+        const GALAXY_PARAMS = {
+          count: 200_000,
+          size: 0.025,
+          radius: 3.5,
+          branches: 6,
+          spin: 1.2,
+          randomness: 0.9,
+          randomnessPower: 1.6,
+          insideColor: GALAXY_COLORS.center,
+          outsideColor: GALAXY_COLORS.edge
+        };
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 4;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+
+        const galaxyCanvas = renderer.domElement;
+        galaxyCanvas.style.position = 'absolute';
+        galaxyCanvas.style.top = '0';
+        galaxyCanvas.style.left = '0';
+        galaxyCanvas.style.width = '100%';
+        galaxyCanvas.style.height = '100%';
+        galaxyCanvas.style.zIndex = '5';
+        galaxyCanvas.style.pointerEvents = 'none';
+        galaxyCanvas.id = 'galaxy-canvas';
+
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(GALAXY_PARAMS.count * 3);
+        const colors = new Float32Array(GALAXY_PARAMS.count * 3);
+        const scales = new Float32Array(GALAXY_PARAMS.count);
+        const inside = new THREE.Color(GALAXY_PARAMS.insideColor);
+        const outside = new THREE.Color(GALAXY_PARAMS.outsideColor);
+
+        for (let i = 0; i < GALAXY_PARAMS.count; i++) {
+          const i3 = i * 3;
+          const radius = Math.random() * GALAXY_PARAMS.radius;
+          const spinAngle = radius * GALAXY_PARAMS.spin;
+          const branchAngle = ((i % GALAXY_PARAMS.branches) / GALAXY_PARAMS.branches) * Math.PI * 2;
+
+          const randomX = Math.pow(Math.random(), GALAXY_PARAMS.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * GALAXY_PARAMS.randomness * radius;
+          const randomY = Math.pow(Math.random(), GALAXY_PARAMS.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * GALAXY_PARAMS.randomness * radius;
+          const randomZ = Math.pow(Math.random(), GALAXY_PARAMS.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * GALAXY_PARAMS.randomness * radius;
+
+          positions[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX;
+          positions[i3 + 1] = randomY;
+          positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+          const mixed = inside.clone().lerp(outside, radius / GALAXY_PARAMS.radius);
+          colors[i3 + 0] = mixed.r;
+          colors[i3 + 1] = mixed.g;
+          colors[i3 + 2] = mixed.b;
+
+          scales[i] = Math.random();
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('aScale', new THREE.BufferAttribute(scales, 1));
+
+        const material = new THREE.ShaderMaterial({
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          vertexColors: true,
+          uniforms: {
+            uTime: { value: 0 },
+            uSize: { value: GALAXY_PARAMS.size * renderer.getPixelRatio() }
+          },
+          vertexShader: `
+            uniform float uTime;
+            uniform float uSize;
+            attribute float aScale;
+            varying vec3 vColor;
+            void main() {
+              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+              gl_PointSize = uSize * aScale * (300.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+              vColor = color;
+            }
+          `,
+          fragmentShader: `
+            varying vec3 vColor;
+            void main() {
+              float dist = distance(gl_PointCoord, vec2(0.5));
+              if (dist > 0.5) discard;
+              gl_FragColor = vec4(vColor, 1.0);
+            }
+          `
+        });
+
+        const galaxy = new THREE.Points(geometry, material);
+        scene.add(galaxy);
+
+        window.addEventListener('resize', () => {
+          const heroSection = document.querySelector('.hero');
+          if (heroSection) {
+            const heroRect = heroSection.getBoundingClientRect();
+            camera.aspect = heroRect.width / heroRect.height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(heroRect.width, heroRect.height);
+          } else {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+          }
+        });
+
+        function initGalaxy() {
+          const heroSection = document.querySelector('.hero');
+          if (heroSection) {
+            const heroRect = heroSection.getBoundingClientRect();
+            renderer.setSize(heroRect.width, heroRect.height);
+            camera.aspect = heroRect.width / heroRect.height;
+            camera.updateProjectionMatrix();
+            heroSection.appendChild(galaxyCanvas);
+          } else {
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(galaxyCanvas);
+          }
+          
+          renderer.setAnimationLoop(() => {
+            material.uniforms.uTime.value += 0.005;
+            galaxy.rotation.y += 0.0003;
+            renderer.render(scene, camera);
+          });
+        }
+
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initGalaxy);
+        } else {
+          initGalaxy();
+        }
+    </script>
+
+    <!-- ========== ⏰ COUNTDOWN & NAVIGATION SCRIPT ========== -->
+    <script>
+        // ========== COUNTDOWN VARIABLES ==========
+        let countdownTimer;
+        let countdownValue = 10;
+
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            
+            countdownTimer = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                
+                if (countdownValue <= 0) {
+                    clearInterval(countdownTimer);
+                    enterStudio();
+                }
+            }, 1000);
+        }
+
+        function enterStudio() {
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+            }
+
+            const landingContainer = document.getElementById('landingContainer');
+            landingContainer.classList.add('fade-out');
+
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(startCountdown, 3000);
+            document.getElementById('enterBtn').addEventListener('click', enterStudio);
+        });
+    </script>
+</body>
+</html>

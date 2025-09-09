@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphyBOOK - AI Physics Animation Studio</title>
+    <!-- 
+    ========== 🎨 EASY CUSTOMIZATION 🎨 ==========
+    
+    🔤 FONTS: Copy any name below
+    'Space Grotesk' | 'Audiowide' | 'Orbitron' | 'Michroma' | 'Exo 2' | 'Rajdhani' | 
+    'Press Start 2P' | 'Bungee' | 'Russo One' | 'Inter' | 'Poppins' | 'Montserrat' | 
+    'Bebas Neue' | 'Oswald' | 'Anton'
+    
+    🌈 GRADIENT COLORS: Copy 6 colors for gradient
+    Purple Glow: #8a2be2, #9932cc, #ba55d3, #da70d6, #9370db, #8a2be2
+    Neon Cyber: #00ffff, #ff00ff, #00ff00, #ffff00, #ff1493, #00ffff
+    Matrix: #00ff00, #00cc00, #009900, #006600, #003300, #00ff00
+    Fire: #ff4500, #ff6600, #ff8800, #ffaa00, #ffcc00, #ff4500
+    Ice: #00bfff, #87ceeb, #4169e1, #0000ff, #191970, #00bfff
+    Ocean: #006994, #0077be, #00a8cc, #00d4aa, #40e0d0, #006994
+    Sunset: #ff6b35, #f7931e, #ffcc02, #ff9500, #ff6b35, #f7931e
+    ========================================
+    -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Audiowide:wght@400&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800;900&family=Michroma:wght@400&family=Press+Start+2P&family=Bungee:wght@400&family=Russo+One&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Anton&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Anton', sans-serif;
+            background: #242323;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ========== BACKGROUND TEMPLATES ========== */
+        /* UNCOMMENT ONE OF THESE BACKGROUNDS */
+        
+        /* TEMPLATE 1: DARK PURPLE (CURRENT) */
+        .landing-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(20, 20, 25, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(122, 100, 167, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(31, 62, 133, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #090909 25%, #070707 50%, #0b070e 75%, #0a0a0a 100%);
+            overflow: hidden;
+        }
+        
+        /* TEMPLATE 2: NEON CYBER */
+        /*
+        .landing-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 0, 255, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #000011 0%, #001122 25%, #002244 50%, #003366 75%, #000011 100%);
+            overflow: hidden;
+        }
+        */
+        
+        /* TEMPLATE 3: MATRIX GREEN */
+        /*
+        .landing-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 40% 60%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #001100 25%, #002200 50%, #003300 75%, #000000 100%);
+            overflow: hidden;
+        }
+        */
+        
+        /* TEMPLATE 4: FIRE ORANGE */
+        /*
+        .landing-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 50% 80%, rgba(255, 69, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 20% 20%, rgba(255, 140, 0, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #1a0000 0%, #330000 25%, #660000 50%, #990000 75%, #1a0000 100%);
+            overflow: hidden;
+        }
+        */
+        
+        /* TEMPLATE 5: ICE BLUE */
+        /*
+        .landing-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 60% 40%, rgba(0, 191, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(135, 206, 250, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #000011 0%, #001133 25%, #002255 50%, #003377 75%, #000011 100%);
+            overflow: hidden;
+        }
+        */
+        
+        /* TEMPLATE 6: VAPORWAVE PINK */
+        /*
+        .landing-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #1a0033 0%, #330066 25%, #660099 50%, #9900cc 75%, #1a0033 100%);
+            overflow: hidden;
+        }
+        */
+
+        .hero {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .landing-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.014);
+            backdrop-filter: blur(14px);
+            border-radius: 21px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 
+                0 6px 22px rgba(0, 0, 0, 0.21),
+                inset 0 1px 0 rgba(255, 255, 255, 0.07),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.07);
+            animation: fadeInUp 2s ease-out, float 6s ease-in-out infinite;
+        }
+
+        .logo-container {
+            margin-bottom: 3rem;
+            animation: glow 4s ease-in-out infinite alternate;
+        }
+
+        /* ========== 🎨 CHANGE THESE TO CUSTOMIZE 🎨 ========== */
+        
+        .main-title {
+            /* 🔤 FONT: Replace with any font from list above */
+            font-family: 'Space Grotesk', sans-serif;
+            
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 300;
+            
+            /* 🌈 GRADIENT: Replace these 6 colors with any combo from above */
+            background: linear-gradient(
+                135deg, 
+                #8a2be2 0%,    /* Color 1 */
+                #9932cc 20%,   /* Color 2 */
+                #ba55d3 40%,   /* Color 3 */
+                #da70d6 60%,   /* Color 4 */
+                #9370db 80%,   /* Color 5 */
+                #8a2be2 100%   /* Color 6 */
+            );
+            
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+            text-shadow: 
+                0 0 40px rgba(138, 43, 226, 0.9),
+                0 0 80px rgba(153, 50, 204, 0.7),
+                0 0 120px rgba(186, 85, 211, 0.5);
+            animation: gradientShift 8s ease-in-out infinite;
+            position: relative;
+        }
+        
+        /* ========== ALTERNATIVE TITLE TEMPLATES ========== */
+        /* UNCOMMENT ONE OF THESE TO REPLACE THE CURRENT TITLE STYLE */
+        
+        /* TEMPLATE 2: NEON CYBER THEME */
+        /*
+        .main-title {
+            font-family: 'Orbitron', monospace; /* TRY: 'Press Start 2P', 'Bungee' */
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 700;
+            background: linear-gradient(
+                135deg, 
+                #00ffff 0%, 
+                #ff00ff 25%, 
+                #00ff00 50%, 
+                #ffff00 75%, 
+                #00ffff 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.15em;
+            text-shadow: 
+                0 0 30px rgba(0, 255, 255, 0.8),
+                0 0 60px rgba(255, 0, 255, 0.6),
+                0 0 90px rgba(0, 255, 0, 0.4);
+            animation: gradientShift 6s ease-in-out infinite;
+            position: relative;
+        }
+        
+        */
+        
+        /* TEMPLATE 3: MATRIX GREEN THEME */
+        /*
+        .main-title {
+            font-family: 'Michroma', monospace; /* TRY: 'Russo One', 'Anton' */
+            font-size: clamp(2.3rem, 5.5vw, 4.5rem);
+            font-weight: 400;
+            background: linear-gradient(
+                135deg, 
+                #00ff00 0%, 
+                #00cc00 25%, 
+                #009900 50%, 
+                #006600 75%, 
+                #00ff00 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.08em;
+            text-shadow: 
+                0 0 25px rgba(0, 255, 0, 0.8),
+                0 0 50px rgba(0, 204, 0, 0.6),
+                0 0 75px rgba(0, 153, 0, 0.4);
+            animation: gradientShift 10s ease-in-out infinite;
+            position: relative;
+        }
+        */
+        
+        /* TEMPLATE 4: FIRE ORANGE THEME */
+        /*
+        .main-title {
+            font-family: 'Exo 2', sans-serif; /* TRY: 'Bebas Neue', 'Oswald' */
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            background: linear-gradient(
+                135deg, 
+                #ff4500 0%, 
+                #ff6600 25%, 
+                #ff8800 50%, 
+                #ffaa00 75%, 
+                #ff4500 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.05em;
+            text-shadow: 
+                0 0 30px rgba(255, 69, 0, 0.8),
+                0 0 60px rgba(255, 102, 0, 0.6),
+                0 0 90px rgba(255, 136, 0, 0.4);
+            animation: gradientShift 7s ease-in-out infinite;
+            position: relative;
+        }
+        */
+        
+        /* TEMPLATE 5: ICE BLUE THEME */
+        /*
+        .main-title {
+            font-family: 'Rajdhani', sans-serif; /* TRY: 'Inter', 'Montserrat' */
+            font-size: clamp(2.8rem, 6.5vw, 5.5rem);
+            font-weight: 700;
+            background: linear-gradient(
+                135deg, 
+                #00bfff 0%, 
+                #87ceeb 25%, 
+                #4169e1 50%, 
+                #0000ff 75%, 
+                #00bfff 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.12em;
+            text-shadow: 
+                0 0 25px rgba(0, 191, 255, 0.7),
+                0 0 50px rgba(135, 206, 235, 0.5),
+                0 0 75px rgba(65, 105, 225, 0.3);
+            animation: gradientShift 9s ease-in-out infinite;
+            position: relative;
+        }
+        */
+        
+        /* TEMPLATE 6: VAPORWAVE PINK THEME */
+        /*
+        .main-title {
+            font-family: 'Orbitron', monospace; /* TRY: 'Poppins', 'Space Grotesk' */
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 600;
+            background: linear-gradient(
+                135deg, 
+                #ff1493 0%, 
+                #ff69b4 25%, 
+                #da70d6 50%, 
+                #8a2be2 75%, 
+                #ff1493 100%
+            );
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.1em;
+            text-shadow: 
+                0 0 30px rgba(255, 20, 147, 0.8),
+                0 0 60px rgba(255, 105, 180, 0.6),
+                0 0 90px rgba(218, 112, 214, 0.4);
+            animation: gradientShift 8s ease-in-out infinite;
+            position: relative;
+        }
+        */
+
+        .main-title::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                135deg, 
+                rgba(26, 0, 51, 0.2) 0%, 
+                rgba(93, 51, 170, 0.2) 50%, 
+                rgba(45, 27, 105, 0.2) 100%
+            );
+            filter: blur(20px);
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        .subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(1.4rem, 4vw, 2.5rem);
+            font-weight: 400;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e6ed 50%, #a8b2d1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 4rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            opacity: 0.95;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out 0.5s forwards;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(146, 75, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(146, 75, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(146, 75, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #924BFF;
+        }
+
+        .feature-desc {
+            font-size: 0.9rem;
+            color: #b0b7c3;
+            line-height: 1.4;
+        }
+
+        .cta-container {
+            margin-top: 4rem;
+            opacity: 0;
+            animation: fadeInUp 2s ease-out 1s forwards;
+        }
+
+        .enter-btn {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1a0033 25%, #3d1a78 50%, #5533aa 75%, #2d1b69 100%);
+            background-size: 300% 300%;
+            border: none;
+            padding: 1.8rem 4rem;
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: white;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 20px 40px rgba(93, 51, 170, 0.3),
+                0 10px 20px rgba(45, 27, 105, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1),
+                inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            animation: gradientShift 6s ease-in-out infinite;
+        }
+
+        .enter-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 
+                0 30px 60px rgba(93, 51, 170, 0.4),
+                0 20px 40px rgba(45, 27, 105, 0.3),
+                0 10px 20px rgba(26, 0, 51, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .enter-btn:active {
+            transform: translateY(-4px) scale(1.02);
+        }
+
+        .enter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .enter-btn:hover::before {
+            left: 100%;
+        }
+
+        .enter-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+
+        .enter-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .auto-enter-text {
+            margin-top: 2rem;
+            font-size: 1rem;
+            background: linear-gradient(135deg, #a8b2d1 0%, #7c8db0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0;
+            animation: fadeIn 2s ease-out 3s forwards, pulse 2s ease-in-out infinite;
+            font-weight: 500;
+            letter-spacing: 0.05em;
+        }
+
+        /* Demo Container (hidden initially) */
+        .demo-container {
+            display: none;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 
+                    0 0 20px rgba(93, 51, 170, 0.5),
+                    0 0 40px rgba(45, 27, 105, 0.3),
+                    0 0 60px rgba(26, 0, 51, 0.2);
+            }
+            to {
+                text-shadow: 
+                    0 0 40px rgba(93, 51, 170, 0.8),
+                    0 0 80px rgba(45, 27, 105, 0.6),
+                    0 0 120px rgba(26, 0, 51, 0.4);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.02); opacity: 1; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .landing-content {
+                padding: 1rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .enter-btn {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Transition Animation */
+        .landing-container.fade-out {
+            animation: fadeOut 1s ease-in-out forwards;
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                transform: scale(1.1);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div class="landing-container" id="landingContainer">
+        <!-- Galaxy Background -->
+        <div class="hero"></div>
+        
+        <!-- Landing Content -->
+        <div class="landing-content">
+            <div class="logo-container">
+                <h1 class="main-title">GraphyBOOK</h1>
+                <p class="subtitle">AI-Powered Animation Studio</p>
+            </div>
+
+
+            <div class="cta-container">
+                <button class="enter-btn" id="enterBtn">
+                    Enter Studio
+                </button>
+                <div class="auto-enter-text">
+                    Auto-entering in <span id="countdown">10</span> seconds...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Demo Container (your existing interface) -->
+    <div class="demo-container" id="demoContainer">
+        <!-- We'll load the existing interface here -->
+    </div>
+
+    <!-- Galaxy Animation Script -->
+    <script>
+        // Your galaxy animation code
+        // GALAXY BACKGROUND ANIMATION - Simple Color Editing
+        // Using global THREE from CDN
+
+        /* ========== CHANGE COLORS HERE ========== */
+        const GALAXY_COLORS = {
+          // EDIT THESE TWO LINES TO CHANGE GALAXY COLORS:
+          center:          '#924BFF' ,    // Center of galaxy
+          edge:               '#764ba2'  ,    // Edge of galaxy
+          
+          // COPY-PASTE THESE AESTHETIC COLOR COMBINATIONS:
+          // Fire: center: '#ff4444', edge: '#ffaa00'
+          // Blue: center: '#1730ea', edge: '#2d6ceb' 
+          // Green: center: '#00ff88', edge: '#0088ff'
+          // Purple: center: '#924BFF', edge: '#6A00FF'
+          // White: center: '#ffffff', edge: '#cccccc'
+        //chosen one : ------ '#667eea' , '#764ba2' ;
+
+          // NEW AESTHETIC COMBOS: '#924BFF', '#6A00FF' 
+
+          // Sunset: center: '#ff6b35', edge: '#f7931e'
+          // Cosmic: center: '#667eea', edge: '#764ba2'
+          // Neon: center: '#00d4ff', edge: '#ff0080'
+          // Aurora: center: '#a8edea', edge: '#fed6e3'
+          // Galaxy: center: '#2c1810', edge: '#d4af37'
+          // Vaporwave: center: '#ff006e', edge: '#8338ec'
+          // Ocean: center: '#006994', edge: '#00d4aa'
+          // Lava: center: '#ff4757', edge: '#ff3838'
+          // Ice: center: '#74b9ff', edge: '#0984e3'
+          // Forest: center: '#00b894', edge: '#00cec9'
+        };
+        /* ======================================== */
+
+        const GALAXY_PARAMS = {
+          count: 200_000,
+          size: 0.018,
+          radius: 2.0,
+          branches: 6,
+          spin: 1.2,
+          randomness: 0.9,
+          randomnessPower: 1.6,
+          insideColor: GALAXY_COLORS.center,
+          outsideColor: GALAXY_COLORS.edge
+        };
+
+        /* ---------- SCENE ---------- */
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 4;
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0); // Transparent background
+
+        // Create galaxy canvas for hero section
+        const galaxyCanvas = renderer.domElement;
+        galaxyCanvas.style.position = 'absolute';
+        galaxyCanvas.style.top = '0';
+        galaxyCanvas.style.left = '0';
+        galaxyCanvas.style.width = '100%';
+        galaxyCanvas.style.height = '100%';
+        galaxyCanvas.style.zIndex = '5'; // Higher z-index to ensure visibility
+        galaxyCanvas.style.pointerEvents = 'none';
+        galaxyCanvas.id = 'galaxy-canvas';
+
+        /* ---------- GALAXY ---------- */
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(GALAXY_PARAMS.count * 3);
+        const colors = new Float32Array(GALAXY_PARAMS.count * 3);
+        const scales = new Float32Array(GALAXY_PARAMS.count);
+        const inside = new THREE.Color(GALAXY_PARAMS.insideColor);
+        const outside = new THREE.Color(GALAXY_PARAMS.outsideColor);
+
+        console.log('Creating galaxy with colors:', GALAXY_PARAMS.insideColor, '->', GALAXY_PARAMS.outsideColor);
+
+        for (let i = 0; i < GALAXY_PARAMS.count; i++) {
+          const i3 = i * 3;
+
+          // Position
+          const radius = Math.random() * GALAXY_PARAMS.radius;
+          const spinAngle = radius * GALAXY_PARAMS.spin;
+          const branchAngle = ((i % GALAXY_PARAMS.branches) / GALAXY_PARAMS.branches) * Math.PI * 2;
+
+          const randomX = Math.pow(Math.random(), GALAXY_PARAMS.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * GALAXY_PARAMS.randomness * radius;
+          const randomY = Math.pow(Math.random(), GALAXY_PARAMS.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * GALAXY_PARAMS.randomness * radius;
+          const randomZ = Math.pow(Math.random(), GALAXY_PARAMS.randomnessPower) * (Math.random() < 0.5 ? 1 : -1) * GALAXY_PARAMS.randomness * radius;
+
+          positions[i3 + 0] = Math.cos(branchAngle + spinAngle) * radius + randomX;
+          positions[i3 + 1] = randomY;
+          positions[i3 + 2] = Math.sin(branchAngle + spinAngle) * radius + randomZ;
+
+          // Color
+          const mixed = inside.clone().lerp(outside, radius / GALAXY_PARAMS.radius);
+          colors[i3 + 0] = mixed.r;
+          colors[i3 + 1] = mixed.g;
+          colors[i3 + 2] = mixed.b;
+
+          scales[i] = Math.random();
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        geometry.setAttribute('aScale', new THREE.BufferAttribute(scales, 1));
+
+        const material = new THREE.ShaderMaterial({
+          depthWrite: false,
+          blending: THREE.AdditiveBlending,
+          vertexColors: true,
+          uniforms: {
+            uTime: { value: 0 },
+            uSize: { value: GALAXY_PARAMS.size * renderer.getPixelRatio() }
+          },
+          vertexShader: `
+            uniform float uTime;
+            uniform float uSize;
+            attribute float aScale;
+            varying vec3 vColor;
+            void main() {
+              vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+              gl_PointSize = uSize * aScale * (300.0 / -mvPosition.z);
+              gl_Position = projectionMatrix * mvPosition;
+              vColor = color;
+            }
+          `,
+          fragmentShader: `
+            varying vec3 vColor;
+            void main() {
+              float dist = distance(gl_PointCoord, vec2(0.5));
+              if (dist > 0.5) discard;
+              gl_FragColor = vec4(vColor, 1.0);
+            }
+          `
+        });
+
+        const galaxy = new THREE.Points(geometry, material);
+        scene.add(galaxy);
+
+        /* ---------- EVENTS ---------- */
+        window.addEventListener('resize', () => {
+          const heroSection = document.querySelector('.hero');
+          if (heroSection) {
+            const heroRect = heroSection.getBoundingClientRect();
+            camera.aspect = heroRect.width / heroRect.height;
+            camera.updateProjectionMatrix();
+            renderer.setSize(heroRect.width, heroRect.height);
+          } else {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+          }
+        });
+
+        /* ---------- INITIALIZATION ---------- */
+        function initGalaxy() {
+          console.log('Galaxy.js initialized successfully!');
+          
+          // Find the hero section and append galaxy canvas there
+          const heroSection = document.querySelector('.hero');
+          if (heroSection) {
+            // Size the renderer to match hero section
+            const heroRect = heroSection.getBoundingClientRect();
+            renderer.setSize(heroRect.width, heroRect.height);
+            camera.aspect = heroRect.width / heroRect.height;
+            camera.updateProjectionMatrix();
+            
+            heroSection.appendChild(galaxyCanvas);
+            console.log('Galaxy canvas added to hero section!');
+          } else {
+            console.log('Hero section not found, adding to body');
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(galaxyCanvas);
+          }
+          
+          // Start animation loop
+          renderer.setAnimationLoop(() => {
+            material.uniforms.uTime.value += 0.005;
+            galaxy.rotation.y += 0.0003;
+            renderer.render(scene, camera);
+          });
+        }
+
+        // Wait for page to load before starting galaxy
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', initGalaxy);
+        } else {
+          initGalaxy();
+        }
+    </script>
+
+    <!-- Landing Page Logic -->
+    <script>
+        let countdownTimer;
+        let countdownValue = 10;
+
+        function startCountdown() {
+            const countdownElement = document.getElementById('countdown');
+            
+            countdownTimer = setInterval(() => {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+                
+                if (countdownValue <= 0) {
+                    clearInterval(countdownTimer);
+                    enterStudio();
+                }
+            }, 1000);
+        }
+
+        function enterStudio() {
+            // Clear countdown
+            if (countdownTimer) {
+                clearInterval(countdownTimer);
+            }
+
+            // Fade out landing page
+            const landingContainer = document.getElementById('landingContainer');
+            landingContainer.classList.add('fade-out');
+
+            // Load the demo interface after fade out
+            setTimeout(() => {
+                // Hide landing page
+                landingContainer.style.display = 'none';
+                
+                // Load the demo interface
+                loadDemoInterface();
+            }, 1000);
+        }
+
+        function loadDemoInterface() {
+            // Simply redirect to the demo page
+            window.location.href = 'index.html';
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', () => {
+            // Start countdown after 3 seconds
+            setTimeout(startCountdown, 3000);
+            
+            // Manual enter button
+            document.getElementById('enterBtn').addEventListener('click', enterStudio);
+        });
+    </script>
+</body>
+</html>

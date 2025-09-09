@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphyBOOK - Template Selector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&family=Audiowide:wght@400&family=Rajdhani:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800;900&family=Michroma:wght@400&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .template-selector {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .selector-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a8b2d1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .template-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .template-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .template-name {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.7;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        /* Template 1: Dark Purple Theme */
+        .template-1 {
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0a 0%, #1a0a2e 25%, #2d1b69 50%, #11998e 75%, #0a0a0a 100%);
+        }
+
+        .template-1 .demo-title {
+            font-family: 'Audiowide', monospace;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #000000 0%, #1a0033 20%, #3d1a78 40%, #5533aa 60%, #2d1b69 80%, #000000 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease-in-out infinite;
+        }
+
+        .template-1 .demo-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #e0e6ed 50%, #a8b2d1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Template 2: Neon Cyber Theme */
+        .template-2 {
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(0, 255, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(255, 0, 255, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #000011 0%, #001122 25%, #002244 50%, #003366 75%, #000011 100%);
+        }
+
+        .template-2 .demo-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #00ffff 0%, #ff00ff 25%, #00ff00 50%, #ffff00 75%, #00ffff 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 6s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+        }
+
+        .template-2 .demo-subtitle {
+            font-family: 'Rajdhani', sans-serif;
+            color: #00ffff;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        /* Template 3: Matrix Green Theme */
+        .template-3 {
+            background: 
+                radial-gradient(circle at 40% 60%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #000000 0%, #001100 25%, #002200 50%, #003300 75%, #000000 100%);
+        }
+
+        .template-3 .demo-title {
+            font-family: 'Michroma', monospace;
+            font-size: 2.8rem;
+            background: linear-gradient(135deg, #00ff00 0%, #00cc00 25%, #009900 50%, #006600 75%, #00ff00 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 10s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.6);
+        }
+
+        .template-3 .demo-subtitle {
+            font-family: 'Exo 2', sans-serif;
+            color: #00ff00;
+            font-weight: 300;
+        }
+
+        /* Template 4: Fire Orange Theme */
+        .template-4 {
+            background: 
+                radial-gradient(circle at 50% 80%, rgba(255, 69, 0, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 20% 20%, rgba(255, 140, 0, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #1a0000 0%, #330000 25%, #660000 50%, #990000 75%, #1a0000 100%);
+        }
+
+        .template-4 .demo-title {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ff4500 0%, #ff6600 25%, #ff8800 50%, #ffaa00 75%, #ff4500 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 7s ease-in-out infinite;
+            text-shadow: 0 0 25px rgba(255, 69, 0, 0.7);
+        }
+
+        .template-4 .demo-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #ffaa00 0%, #ff8800 50%, #ff6600 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Template 5: Ice Blue Theme */
+        .template-5 {
+            background: 
+                radial-gradient(circle at 60% 40%, rgba(0, 191, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 20% 80%, rgba(135, 206, 250, 0.2) 0%, transparent 50%),
+                linear-gradient(135deg, #000011 0%, #001133 25%, #002255 50%, #003377 75%, #000011 100%);
+        }
+
+        .template-5 .demo-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00bfff 0%, #87ceeb 25%, #4169e1 50%, #0000ff 75%, #00bfff 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 9s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+        }
+
+        .template-5 .demo-subtitle {
+            font-family: 'Space Grotesk', sans-serif;
+            color: #87ceeb;
+            font-weight: 400;
+        }
+
+        /* Template 6: Vaporwave Pink/Purple */
+        .template-6 {
+            background: 
+                radial-gradient(circle at 30% 70%, rgba(255, 20, 147, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 70% 30%, rgba(138, 43, 226, 0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #1a0033 0%, #330066 25%, #660099 50%, #9900cc 75%, #1a0033 100%);
+        }
+
+        .template-6 .demo-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 3rem;
+            background: linear-gradient(135deg, #ff1493 0%, #ff69b4 25%, #da70d6 50%, #8a2be2 75%, #ff1493 100%);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientShift 8s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 20, 147, 0.6);
+        }
+
+        .template-6 .demo-subtitle {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, #ff69b4 0%, #da70d6 50%, #8a2be2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .demo-subtitle {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            opacity: 0.9;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .select-btn {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 500;
+        }
+
+        .select-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(-50%) translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <div class="template-selector">
+        <h1 class="selector-title">🎨 Choose Your GraphyBOOK Theme</h1>
+        
+        <div class="templates-grid">
+            <!-- Template 1: Dark Purple -->
+            <div class="template-card template-1" onclick="selectTemplate(1)">
+                <div class="template-name">Dark Purple</div>
+                <div class="demo-title">GraphyBOOK</div>
+                <div class="demo-subtitle">AI-Powered Animation Studio</div>
+                <button class="select-btn">Select This Theme</button>
+            </div>
+
+            <!-- Template 2: Neon Cyber -->
+            <div class="template-card template-2" onclick="selectTemplate(2)">
+                <div class="template-name">Neon Cyber</div>
+                <div class="demo-title">GraphyBOOK</div>
+                <div class="demo-subtitle">AI-Powered Animation Studio</div>
+                <button class="select-btn">Select This Theme</button>
+            </div>
+
+            <!-- Template 3: Matrix Green -->
+            <div class="template-card template-3" onclick="selectTemplate(3)">
+                <div class="template-name">Matrix Green</div>
+                <div class="demo-title">GraphyBOOK</div>
+                <div class="demo-subtitle">AI-Powered Animation Studio</div>
+                <button class="select-btn">Select This Theme</button>
+            </div>
+
+            <!-- Template 4: Fire Orange -->
+            <div class="template-card template-4" onclick="selectTemplate(4)">
+                <div class="template-name">Fire Orange</div>
+                <div class="demo-title">GraphyBOOK</div>
+                <div class="demo-subtitle">AI-Powered Animation Studio</div>
+                <button class="select-btn">Select This Theme</button>
+            </div>
+
+            <!-- Template 5: Ice Blue -->
+            <div class="template-card template-5" onclick="selectTemplate(5)">
+                <div class="template-name">Ice Blue</div>
+                <div class="demo-title">GraphyBOOK</div>
+                <div class="demo-subtitle">AI-Powered Animation Studio</div>
+                <button class="select-btn">Select This Theme</button>
+            </div>
+
+            <!-- Template 6: Vaporwave -->
+            <div class="template-card template-6" onclick="selectTemplate(6)">
+                <div class="template-name">Vaporwave</div>
+                <div class="demo-title">GraphyBOOK</div>
+                <div class="demo-subtitle">AI-Powered Animation Studio</div>
+                <button class="select-btn">Select This Theme</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function selectTemplate(templateNumber) {
+            // Store the selected template
+            localStorage.setItem('selectedTemplate', templateNumber);
+            
+            // Show confirmation
+            const templateNames = {
+                1: 'Dark Purple',
+                2: 'Neon Cyber', 
+                3: 'Matrix Green',
+                4: 'Fire Orange',
+                5: 'Ice Blue',
+                6: 'Vaporwave'
+            };
+            
+            alert(`🎨 ${templateNames[templateNumber]} theme selected! Redirecting to landing page...`);
+            
+            // Redirect to landing page with template parameter
+            window.location.href = `landing.html?template=${templateNumber}`;
+        }
+
+        // Add hover effects
+        document.querySelectorAll('.template-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>

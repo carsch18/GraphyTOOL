@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GraphyTOOL - Physics Animation Studio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Left Panel -->
+        <div class="left-panel">
+            <!-- Header -->
+            <div class="header">
+                <h1 class="title">GraphyTOOL</h1>
+                <p class="subtitle">AI-Powered Physics Animation Studio</p>
+            </div>
+
+            <!-- Mode Selector -->
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="prompt">
+                    <span>AI Prompt</span>
+                </button>
+                <button class="mode-btn" data-mode="code">
+                    <span>Manual Code</span>
+                </button>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <!-- Prompt Mode -->
+                <div class="input-mode active" id="prompt-mode">
+                    <label class="input-label">Describe your physics animation:</label>
+                    <textarea 
+                        id="physics-prompt" 
+                        class="input-textarea"
+                        placeholder="Example: projectile motion with air resistance showing trajectory and velocity vectors..."
+                        rows="8"
+                    ></textarea>
+                    <button class="generate-btn" id="generate-btn">
+                        <span>Generate Animation</span>
+                    </button>
+                </div>
+
+                <!-- Code Mode -->
+                <div class="input-mode" id="code-mode">
+                    <label class="input-label">Paste your Manim code:</label>
+                    <textarea 
+                        id="manual-code" 
+                        class="input-textarea code-textarea"
+                        placeholder="from manim import *
+
+class GeneratedScene(Scene):
+    def construct(self):
+        # Your animation code here
+        pass"
+                        rows="12"
+                    ></textarea>
+                    <button class="execute-btn" id="execute-btn">
+                        <span>Execute Code</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Status Area -->
+            <div class="status-container">
+                <div class="status-indicator" id="status-indicator">
+                    <span class="status-text">Ready to create amazing animations</span>
+                </div>
+                <div class="progress-bar" id="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel -->
+        <div class="right-panel">
+            <!-- Video Header -->
+            <div class="video-header">
+                <h2 class="video-title">Animation Output</h2>
+                <div class="video-controls" id="video-controls" style="display: none;">
+                    <button class="control-btn" id="download-btn">
+                        <span>Download</span>
+                    </button>
+                    <button class="control-btn" id="fullscreen-btn">
+                        <span>Fullscreen</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Video Container -->
+            <div class="video-container" id="video-container">
+                <div class="video-placeholder" id="video-placeholder">
+                    <div class="placeholder-content">
+                        <h3>Your Animation Will Appear Here</h3>
+                        <p>Enter a physics concept or paste code to get started</p>
+                    </div>
+                </div>
+                <video 
+                    id="animation-video" 
+                    class="animation-video" 
+                    controls 
+                    style="display: none;"
+                >
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <!-- Animation Info -->
+            <div class="animation-info" id="animation-info" style="display: none;">
+                <div class="info-item">
+                    <span class="info-label">Duration:</span>
+                    <span class="info-value" id="duration-info">--</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Quality:</span>
+                    <span class="info-value" id="quality-info">720p</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Status:</span>
+                    <span class="info-value" id="animation-status">Ready</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h3 class="loading-title">Creating Your Animation</h3>
+            <p class="loading-text" id="loading-text">Initializing...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

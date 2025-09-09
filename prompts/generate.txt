@@ -1,0 +1,24 @@
+You are an expert Manim programmer. Create a complete, runnable Python script for the following physics animation request. Your output must be ONLY Python code in a single code block.
+
+User Request: "{user_prompt}"
+
+REQUIREMENTS:
+1. Import: from manim import *
+2. Create a class that inherits from Scene
+3. Implement the construct(self) method with the animation
+4. Use proper Manim syntax and methods
+5. Make the animation educational and visually appealing
+6. Keep it simple but effective
+7. Add appropriate colors and timing
+
+Example structure:
+```python
+from manim import *
+
+class DemoScene(Scene):
+    def construct(self):
+        # Your animation code here
+        pass
+```
+
+Generate ONLY the Python code, no explanations:
